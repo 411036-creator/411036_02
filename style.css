@@ -19,6 +19,7 @@ main{display:grid;grid-template-columns:360px 1fr;gap:20px;padding:20px;max-widt
 form h2{margin:0 0 12px;font-size:1.1rem}
 label{display:block;font-size:0.9rem;color:var(--muted);margin-bottom:10px}
 input[type=text], textarea, #search{width:100%;padding:10px;border-radius:8px;border:1px solid #e6edf3;background:#fbfdff}
+.status-text{margin:6px 0 0;font-size:0.85rem;color:#475569}
 .form-row{display:flex;gap:8px;margin-top:8px}
 button{padding:8px 12px;border-radius:8px;border:0;background:#e6eefb;color:var(--accent);cursor:pointer;transition:all .18s}
 button.primary{background:var(--accent);color:#fff}
