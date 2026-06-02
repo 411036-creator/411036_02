@@ -25,7 +25,10 @@ button{padding:8px 12px;border-radius:8px;border:0;background:#e6eefb;color:var(
 button.primary{background:var(--accent);color:#fff}
 button.accent{background:var(--accent-2);color:#fff}
 button.muted{background:#f3f4f6;color:var(--muted)}
+button:disabled{opacity:.5;cursor:not-allowed}
 button:active{transform:translateY(1px)}
+.form-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.status-text.loading{color:var(--accent-2)}
 
 .controls{margin-top:12px}
 .control-row{display:flex;gap:8px;margin-top:8px}

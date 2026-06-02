@@ -23,6 +23,7 @@ class FlashcardApp {
     this.startStudyBtn = document.getElementById('startStudyBtn')
     this.exportBtn = document.getElementById('exportBtn')
     this.importFile = document.getElementById('importFile')
+    this.autoFillBtn = document.getElementById('autoFillBtn')
 
     this.cardView = document.getElementById('cardView')
     this.studyCard = document.getElementById('studyCard')
@@ -49,6 +50,7 @@ class FlashcardApp {
     this.startStudyBtn.addEventListener('click', ()=>this.startStudy())
     this.exportBtn.addEventListener('click', ()=>this.exportJSON())
     this.importFile.addEventListener('change', e=>this.importJSON(e.target.files[0]))
+    this.autoFillBtn.addEventListener('click', ()=>this.lookupTranslation(true))
     this.inputFront.addEventListener('input', debounce(()=>this.lookupTranslation(), 700))
 
     this.cardView.addEventListener('click', e=>{
@@ -95,7 +97,7 @@ class FlashcardApp {
     if(this.translateStatus) this.translateStatus.textContent = text
   }
 
-  async lookupTranslation(){
+  async lookupTranslation(force = false){
     const front = this.inputFront.value.trim()
     if(!front || !/^[A-Za-z\s]+$/.test(front)){
       this.autoTranslatedFor = null
@@ -103,8 +105,8 @@ class FlashcardApp {
       return
     }
 
-    if(this.autoTranslatedFor === front) return
-    if(this.inputBack.value.trim() && this.autoTranslatedFor !== front) {
+    if(this.autoTranslatedFor === front && !force) return
+    if(this.inputBack.value.trim() && this.autoTranslatedFor !== front && !force) {
       this.setTranslateStatus('已偵測手動內容，不覆寫現有解釋。')
       return
     }
