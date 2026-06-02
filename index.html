@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>單字卡 - 簡易版</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>單字卡</h1>
+    <p class="subtitle">建立、練習與追蹤你的單字卡</p>
+  </header>
+
+  <main>
+    <section class="sidebar">
+      <form id="cardForm" novalidate>
+        <h2>新增 / 編輯卡片</h2>
+        <label>單字 (Front)
+          <input id="inputFront" type="text" placeholder="輸入單字或片語" required>
+        </label>
+        <label>中文 / 解釋 (Back)
+          <textarea id="inputBack" rows="3" placeholder="輸入解釋或例句" required></textarea>
+        </label>
+        <div class="form-row">
+          <button id="saveBtn" type="submit">儲存卡片</button>
+          <button id="cancelEditBtn" type="button" class="muted">取消</button>
+        </div>
+      </form>
+
+      <section class="controls">
+        <input id="search" placeholder="搜尋單字或解釋">
+        <div class="control-row">
+          <button id="shuffleBtn">隨機練習</button>
+          <button id="startStudyBtn" class="primary">開始練習</button>
+        </div>
+        <div class="control-row">
+          <button id="exportBtn">匯出 JSON</button>
+          <label class="import">
+            匯入
+            <input id="importFile" type="file" accept="application/json">
+          </label>
+        </div>
+      </section>
+
+      <section class="list">
+        <h3>卡片列表</h3>
+        <ul id="cardList"></ul>
+      </section>
+    </section>
+
+    <section class="study">
+      <div class="study-header">
+        <h2>練習模式</h2>
+        <div class="progress" title="進度">
+          <div id="progressBar"></div>
+        </div>
+      </div>
+      <div id="cardView" class="card-view empty">
+        <div class="card" id="studyCard">
+          <div class="front" id="cardFront"></div>
+          <div class="back" id="cardBack"></div>
+        </div>
+      </div>
+
+      <div class="study-controls">
+        <button id="prevBtn">上一步</button>
+        <button id="flipBtn" class="accent">翻面</button>
+        <button id="nextBtn">下一步</button>
+        <button id="knownBtn">我會了</button>
+      </div>
+      <p class="note">提示：點擊卡片亦可翻面，空白卡片會阻止練習開始。</p>
+    </section>
+  </main>
+
+  <footer>
+    <small>儲存在本機 LocalStorage • 可匯入/匯出 JSON</small>
+  </footer>
+
+  <script src="script.js" type="module"></script>
+</body>
+</html>
