@@ -8,6 +8,7 @@ class FlashcardApp {
     this.editingId = null
     this.filtered = []
     this.autoTranslatedFor = null
+    this.supplementCache = {}
 
     // DOM
     this.form = document.getElementById('cardForm')
@@ -174,15 +175,89 @@ class FlashcardApp {
   }
 
   updateStudyView(){
-    if(this.filtered.length===0){ this.cardFront.textContent='(沒有卡片)'; this.cardBack.textContent=''; this.progressBar.style.width='0%'; return }
+    if(this.filtered.length===0){ this.cardFront.textContent='(沒有卡片)'; this.cardBack.innerHTML=''; this.progressBar.style.width='0%'; return }
     const c = this.filtered[this.index] || this.filtered[0]
     this.cardFront.textContent = c.front
-    this.cardBack.textContent = c.back
+    const supplement = this.supplementCache[c.front]
+    this.cardBack.innerHTML = this.renderBackContent(c, supplement)
     this.studyCard.classList.toggle('flipped', this.isFlipped)
     this.updateProgress()
   }
 
-  flipCard(){ this.isFlipped = !this.isFlipped; this.updateStudyView() }
+  renderBackContent(card, supplement){
+    const lines = []
+    if(card.back){
+      lines.push(`<div class="back-main">${escapeHTML(card.back)}</div>`)
+    }
+    if(supplement){
+      if(supplement.loading){
+        lines.push('<div class="back-loading">查詢補充資訊中...</div>')
+      } else {
+        if(supplement.translation){
+          lines.push(`<div class="back-field"><span>翻譯：</span>${escapeHTML(supplement.translation)}</div>`)
+        }
+        if(supplement.partOfSpeech){
+          lines.push(`<div class="back-field"><span>詞性：</span>${escapeHTML(supplement.partOfSpeech)}</div>`)
+        }
+        if(supplement.origin){
+          lines.push(`<div class="back-field"><span>字根分析：</span>${escapeHTML(supplement.origin)}</div>`)
+        }
+        if(supplement.example){
+          lines.push(`<div class="back-field"><span>例句：</span>${escapeHTML(supplement.example)}</div>`)
+        }
+        if(supplement.definition){
+          lines.push(`<div class="back-field"><span>定義：</span>${escapeHTML(supplement.definition)}</div>`)
+        }
+        if(!supplement.translation && !supplement.partOfSpeech && !supplement.origin && !supplement.example && !supplement.definition){
+          lines.push('<div class="back-loading">查無補充資訊。</div>')
+        }
+      }
+    } else {
+      lines.push('<div class="back-loading">翻面時會補充詞性、例句與字根分析。</div>')
+    }
+    return lines.join('')
+  }
+
+  async loadSupplement(word){
+    if(!word) return null
+    this.supplementCache[word] = {loading:true}
+    this.updateStudyView()
+    const result = await this.fetchWordDetails(word)
+    this.supplementCache[word] = result || {translation:null,partOfSpeech:null,origin:null,example:null,definition:null}
+    this.updateStudyView()
+    return this.supplementCache[word]
+  }
+
+  async fetchWordDetails(word){
+    try{
+      const dictUrl = 'https://api.dictionaryapi.dev/api/v2/entries/en/' + encodeURIComponent(word)
+      const response = await fetch(dictUrl)
+      if(!response.ok) return null
+      const data = await response.json()
+      const first = Array.isArray(data) ? data[0] : null
+      if(!first) return null
+      const partOfSpeech = first.meanings?.[0]?.partOfSpeech || ''
+      const definition = first.meanings?.[0]?.definitions?.[0]?.definition || ''
+      const example = first.meanings?.[0]?.definitions?.[0]?.example || ''
+      const origin = first.origin || ''
+      const translation = await this.fetchChineseTranslation(word)
+      return {translation,partOfSpeech,origin,example,definition}
+    }catch(err){
+      console.warn('fetchWordDetails failed', err)
+      return null
+    }
+  }
+
+  async flipCard(){
+    this.isFlipped = !this.isFlipped
+    this.updateStudyView()
+    if(this.isFlipped){
+      const c = this.filtered[this.index]
+      if(c && !this.supplementCache[c.front]){
+        await this.loadSupplement(c.front)
+      }
+    }
+  }
 
   next(){ if(this.filtered.length===0) return; this.index = (this.index+1) % this.filtered.length; this.isFlipped=false; this.updateStudyView() }
   prev(){ if(this.filtered.length===0) return; this.index = (this.index-1+this.filtered.length) % this.filtered.length; this.isFlipped=false; this.updateStudyView() }

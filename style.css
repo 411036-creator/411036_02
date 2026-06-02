@@ -36,6 +36,10 @@ button:active{transform:translateY(1px)}
 #cardList li{display:flex;justify-content:space-between;align-items:center;padding:10px;border-radius:8px;border:1px solid #f1f5f9;margin-bottom:8px}
 .meta{font-size:0.85rem;color:var(--muted)}
 .list .actions button{margin-left:6px;padding:6px 8px}
+.back-main{margin-bottom:14px;font-size:1rem;line-height:1.6;}
+.back-field{margin-top:10px;font-size:0.95rem;line-height:1.6;color:#334155}
+.back-field span{font-weight:600;color:#0f172a}
+.back-loading{margin-top:12px;color:#64748b;font-size:0.9rem}
 
 .study-header{display:flex;align-items:center;justify-content:space-between}
 .progress{flex:1;height:10px;background:#eef2f7;border-radius:999px;margin-left:12px;overflow:hidden}
