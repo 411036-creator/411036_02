@@ -5,28 +5,65 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>單字卡 - 簡易版</title>
   <link rel="stylesheet" href="style.css">
+  <script>
+    window.tailwind = window.tailwind || {}
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'glow-50': '#f8fafc',
+            'glow-100': '#cbd5e1',
+            'glow-200': '#94a3b8',
+            'glow-400': '#60a5fa',
+            'glow-600': '#0ea5a4',
+            'glow-700': '#0f172a',
+            'glow-800': '#0b1220',
+            'glow-900': '#05060a',
+            'glow-accent': '#38bdf8'
+          },
+          boxShadow: {
+            'glow-lg': '0 8px 30px rgba(14,165,164,0.12)'
+          },
+          borderRadius: {
+            'xl': '12px'
+          }
+        }
+      }
+    }
+  </script>
+  <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-  <header>
-    <h1>單字卡</h1>
-    <p class="subtitle">建立、練習與追蹤你的單字卡</p>
+<body class="bg-glow-900 text-glow-50 antialiased">
+  <header class="px-6 py-5">
+    <h1 class="text-2xl font-semibold">單字卡</h1>
+    <p class="subtitle mt-1 text-sm text-glow-200">建立、練習與追蹤你的單字卡</p>
   </header>
 
   <main>
-    <section class="sidebar">
-      <form id="cardForm" novalidate>
-        <h2>新增 / 編輯卡片</h2>
-        <label>單字 (Front)
-          <input id="inputFront" type="text" placeholder="輸入單字或片語" required>
+    <section class="sidebar px-6">
+      <form id="cardForm" novalidate class="space-y-3 bg-glow-800 p-4 rounded-xl shadow-lg">
+        <h2 class="text-lg font-medium">新增單字資料</h2>
+        <label class="block text-sm">英文單字
+          <input id="inputWord" type="text" placeholder="輸入英文單字" required class="mt-2 w-full rounded-md bg-glow-700 border border-glow-700 px-3 py-2 text-glow-50 focus:outline-none focus:ring-2 focus:ring-glow-400">
         </label>
-        <label>中文 / 解釋 (Back)
-          <textarea id="inputBack" rows="3" placeholder="輸入解釋或例句" required></textarea>
+        <label class="block text-sm">中文翻譯
+          <textarea id="inputTranslation" rows="2" placeholder="輸入中文翻譯" required class="mt-2 w-full rounded-md bg-glow-700 border border-glow-700 px-3 py-2 text-glow-50 focus:outline-none focus:ring-2 focus:ring-glow-400"></textarea>
         </label>
-        <p id="translateStatus" class="status-text" aria-live="polite">輸入英文單字後，會自動查詢中文翻譯。</p>
-        <div class="form-row">
-          <button id="autoFillBtn" type="button" class="muted">自動填入</button>
-          <button id="saveBtn" type="submit">儲存卡片</button>
-          <button id="cancelEditBtn" type="button" class="muted">取消</button>
+        <label class="block text-sm">字根分析
+          <textarea id="inputRoot" rows="2" placeholder="輸入字根分析" class="mt-2 w-full rounded-md bg-glow-700 border border-glow-700 px-3 py-2 text-glow-50 focus:outline-none focus:ring-2 focus:ring-glow-400"></textarea>
+        </label>
+        <label class="block text-sm">例句
+          <textarea id="inputExample" rows="2" placeholder="輸入例句" class="mt-2 w-full rounded-md bg-glow-700 border border-glow-700 px-3 py-2 text-glow-50 focus:outline-none focus:ring-2 focus:ring-glow-400"></textarea>
+        </label>
+        <label class="block text-sm">詞性
+          <input id="inputPOS" type="text" placeholder="輸入詞性，例如 noun / verb" class="mt-2 w-full rounded-md bg-glow-700 border border-glow-700 px-3 py-2 text-glow-50 focus:outline-none focus:ring-2 focus:ring-glow-400">
+        </label>
+        <p id="translateStatus" class="status-text text-sm text-glow-200" aria-live="polite">輸入英文單字後，會自動查詢中文翻譯。</p>
+        <p id="submitStatus" class="status-text text-sm text-glow-200" aria-live="polite">填寫表單後，點擊「儲存單字」即可送出。</p>
+        <div class="form-row flex gap-2 mt-2">
+          <button id="autoFillBtn" type="button" class="px-3 py-2 rounded-md bg-glow-600 text-glow-900">自動翻譯</button>
+          <button id="saveBtn" type="submit" class="px-3 py-2 rounded-md bg-glow-accent text-black">儲存單字</button>
+          <button id="cancelEditBtn" type="button" class="px-3 py-2 rounded-md bg-glow-700 text-glow-200">取消</button>
         </div>
       </form>
 
