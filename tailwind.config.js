@@ -4,18 +4,18 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        'glow-50': '#f8fafc',
-        'glow-100': '#cbd5e1',
-        'glow-200': '#94a3b8',
-        'glow-400': '#60a5fa',
-        'glow-600': '#0ea5a4',
-        'glow-700': '#0f172a',
-        'glow-800': '#0b1220',
-        'glow-900': '#05060a',
-        'glow-accent': '#38bdf8'
+        'glow-50': '#f8f4ec',
+        'glow-100': '#e6dcc0',
+        'glow-200': '#bfa86a',
+        'glow-400': '#D4AF37',
+        'glow-600': '#B8860B',
+        'glow-700': '#141414',
+        'glow-800': '#0b0b0b',
+        'glow-900': '#050505',
+        'glow-accent': '#D4AF37'
       },
       boxShadow: {
-        'glow-lg': '0 8px 30px rgba(14,165,164,0.12)'
+        'glow-lg': '0 8px 30px rgba(212,175,55,0.12)'
       },
       borderRadius: {
         'xl': '12px'
