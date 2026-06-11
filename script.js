@@ -13,8 +13,11 @@ class FlashcardApp {
 
     // DOM
     this.form = document.getElementById('cardForm')
-    this.inputFront = document.getElementById('inputFront')
-    this.inputBack = document.getElementById('inputBack')
+    this.inputWord = document.getElementById('inputWord')
+    this.inputTranslation = document.getElementById('inputTranslation')
+    this.inputRoot = document.getElementById('inputRoot')
+    this.inputExample = document.getElementById('inputExample')
+    this.inputPOS = document.getElementById('inputPOS')
     this.translateStatus = document.getElementById('translateStatus')
     this.cancelEditBtn = document.getElementById('cancelEditBtn')
     this.cardList = document.getElementById('cardList')
@@ -52,7 +55,7 @@ class FlashcardApp {
     this.exportBtn.addEventListener('click', ()=>this.exportJSON())
     this.importFile.addEventListener('change', e=>this.importJSON(e.target.files[0]))
     this.autoFillBtn.addEventListener('click', ()=>this.lookupTranslation(true))
-    this.inputFront.addEventListener('input', debounce(()=>this.lookupTranslation(), 700))
+    this.inputWord.addEventListener('input', debounce(()=>this.lookupTranslation(), 700))
 
     this.cardView.addEventListener('click', e=>{
       if(e.target.closest('.card')) this.flipCard()
@@ -78,28 +81,42 @@ class FlashcardApp {
   generateId(){return Date.now().toString(36)+Math.random().toString(36).slice(2,6)}
 
   saveCard(){
-    const front = this.inputFront.value.trim()
-    const back = this.inputBack.value.trim()
-    if(!front || !back){alert('前或後內容不可為空'); return}
+    const front = this.inputWord.value.trim()
+    const back = this.inputTranslation.value.trim()
+    const root = this.inputRoot.value.trim()
+    const example = this.inputExample.value.trim()
+    const pos = this.inputPOS.value.trim()
+    if(!front || !back){alert('英文單字與中文翻譯不可為空'); return}
 
     if(this.editingId){
       const card = this.cards.find(c=>c.id===this.editingId)
-      if(card){card.front=front; card.back=back}
+      if(card){
+        card.front = front
+        card.back = back
+        card.root = root
+        card.example = example
+        card.pos = pos
+      }
       this.editingId = null
     } else {
-      this.cards.push({id:this.generateId(),front,back,known:false,created:Date.now()})
+      this.cards.push({id:this.generateId(),front,back,root,pos,example,known:false,created:Date.now()})
     }
     this.save(); this.resetForm(); this.renderList();
   }
 
-  resetForm(){this.form.reset(); this.editingId = null; this.autoTranslatedFor = null; this.setTranslateStatus('輸入英文單字後，會自動查詢中文翻譯。')}
+  resetForm(){
+    this.form.reset();
+    this.editingId = null;
+    this.autoTranslatedFor = null;
+    this.setTranslateStatus('輸入英文單字後，會自動查詢中文翻譯。')
+  }
 
   setTranslateStatus(text){
     if(this.translateStatus) this.translateStatus.textContent = text
   }
 
   async lookupTranslation(force = false){
-    const front = this.inputFront.value.trim()
+    const front = this.inputWord.value.trim()
     if(!front || !/^[A-Za-z\s]+$/.test(front)){
       this.autoTranslatedFor = null
       this.setTranslateStatus('請輸入英文單字，自動查中文翻譯。')
@@ -107,7 +124,7 @@ class FlashcardApp {
     }
 
     if(this.autoTranslatedFor === front && !force) return
-    if(this.inputBack.value.trim() && this.autoTranslatedFor !== front && !force) {
+    if(this.inputTranslation.value.trim() && this.autoTranslatedFor !== front && !force) {
       this.setTranslateStatus('已偵測手動內容，不覆寫現有解釋。')
       return
     }
@@ -115,7 +132,7 @@ class FlashcardApp {
     this.setTranslateStatus('查詢中文翻譯中...')
     const result = await this.fetchChineseTranslation(front)
     if(result){
-      this.inputBack.value = result
+      this.inputTranslation.value = result
       this.autoTranslatedFor = front
       this.setTranslateStatus('已自動填入中文翻譯，可直接儲存或自行編輯。')
     } else {
@@ -158,7 +175,12 @@ class FlashcardApp {
 
   startEdit(id){
     const c = this.cards.find(x=>x.id===id); if(!c) return
-    this.inputFront.value = c.front; this.inputBack.value = c.back; this.editingId = id
+    this.inputWord.value = c.front
+    this.inputTranslation.value = c.back
+    this.inputRoot.value = c.root || ''
+    this.inputExample.value = c.example || ''
+    this.inputPOS.value = c.pos || ''
+    this.editingId = id
     window.scrollTo({top:0,behavior:'smooth'})
   }
 
@@ -191,6 +213,15 @@ class FlashcardApp {
     const lines = []
     if(card.back){
       lines.push(`<div class="back-main">${escapeHTML(card.back)}</div>`)
+    }
+    if(card.pos){
+      lines.push(`<div class="back-field"><span>詞性：</span>${escapeHTML(card.pos)}</div>`)
+    }
+    if(card.root){
+      lines.push(`<div class="back-field"><span>字根分析：</span>${escapeHTML(card.root)}</div>`)
+    }
+    if(card.example){
+      lines.push(`<div class="back-field"><span>例句：</span>${escapeHTML(card.example)}</div>`)
     }
     if(supplement){
       if(supplement.loading){
