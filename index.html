@@ -10,21 +10,22 @@
       theme: {
           extend: {
             colors: {
-              'glow-50': '#f8f4ec',
-              'glow-100': '#e6dcc0',
-              'glow-200': '#bfa86a',
-              'glow-400': '#D4AF37',
-              'glow-600': '#B8860B',
-              'glow-700': '#141414',
-              'glow-800': '#0b0b0b',
-              'glow-900': '#050505',
-              'glow-accent': '#D4AF37'
+              surface: '#050505',
+              panel: '#0b0b0b',
+              card: '#141414',
+              border: '#27211b',
+              text: '#f8f4ec',
+              muted: '#e6dcc0',
+              accent: '#D4AF37',
+              'accent-dark': '#B8860B',
+              'on-accent': '#050505',
+              'on-surface': '#f8f4ec'
             },
             boxShadow: {
-              'glow-lg': '0 8px 30px rgba(212,175,55,0.12)'
+              glow: '0 8px 30px rgba(212,175,55,0.12)'
             },
             borderRadius: {
-              'xl': '12px'
+              xl: '12px'
             }
           }
         }
@@ -48,86 +49,86 @@
   @media (max-width:900px){main{grid-template-columns:1fr;padding:12px}.card{width:100%;height:220px}}
   </style>
 </head>
-<body class="bg-glow-900 text-glow-50 antialiased">
+<body class="bg-surface text-text antialiased">
   <header class="px-6 py-5">
     <h1 class="text-2xl font-semibold">單字卡</h1>
-    <p class="subtitle mt-1 text-sm text-glow-200">建立、練習與追蹤你的單字卡</p>
+    <p class="subtitle mt-1 text-sm text-muted">建立、練習與追蹤你的單字卡</p>
   </header>
 
   <main>
     <section class="sidebar px-6">
-      <form id="cardForm" novalidate class="space-y-3 bg-glow-800 p-4 rounded-xl shadow-lg">
+      <form id="cardForm" novalidate class="space-y-3 bg-panel p-4 rounded-xl shadow-glow">
         <h2 class="text-lg font-medium">新增單字資料</h2>
         <label class="block text-sm">英文單字
-          <input id="inputWord" type="text" placeholder="輸入英文單字" required class="mt-2 w-full rounded-md bg-glow-700 border border-glow-700 px-3 py-2 text-glow-50 focus:outline-none focus:ring-2 focus:ring-glow-400">
+          <input id="inputWord" type="text" placeholder="輸入英文單字" required class="mt-2 w-full rounded-md bg-card border border-border px-3 py-2 text-text focus:outline-none focus:ring-2 focus:ring-accent">
         </label>
         <label class="block text-sm">中文翻譯
-          <textarea id="inputTranslation" rows="2" placeholder="輸入中文翻譯" required class="mt-2 w-full rounded-md bg-glow-700 border border-glow-700 px-3 py-2 text-glow-50 focus:outline-none focus:ring-2 focus:ring-glow-400"></textarea>
+          <textarea id="inputTranslation" rows="2" placeholder="輸入中文翻譯" required class="mt-2 w-full rounded-md bg-card border border-border px-3 py-2 text-text focus:outline-none focus:ring-2 focus:ring-accent"></textarea>
         </label>
         <label class="block text-sm">字根分析
-          <textarea id="inputRoot" rows="2" placeholder="輸入字根分析" class="mt-2 w-full rounded-md bg-glow-700 border border-glow-700 px-3 py-2 text-glow-50 focus:outline-none focus:ring-2 focus:ring-glow-400"></textarea>
+          <textarea id="inputRoot" rows="2" placeholder="輸入字根分析" class="mt-2 w-full rounded-md bg-card border border-border px-3 py-2 text-text focus:outline-none focus:ring-2 focus:ring-accent"></textarea>
         </label>
         <label class="block text-sm">例句
-          <textarea id="inputExample" rows="2" placeholder="輸入例句" class="mt-2 w-full rounded-md bg-glow-700 border border-glow-700 px-3 py-2 text-glow-50 focus:outline-none focus:ring-2 focus:ring-glow-400"></textarea>
+          <textarea id="inputExample" rows="2" placeholder="輸入例句" class="mt-2 w-full rounded-md bg-card border border-border px-3 py-2 text-text focus:outline-none focus:ring-2 focus:ring-accent"></textarea>
         </label>
         <label class="block text-sm">詞性
-          <input id="inputPOS" type="text" placeholder="輸入詞性，例如 noun / verb" class="mt-2 w-full rounded-md bg-glow-700 border border-glow-700 px-3 py-2 text-glow-50 focus:outline-none focus:ring-2 focus:ring-glow-400">
+          <input id="inputPOS" type="text" placeholder="輸入詞性，例如 noun / verb" class="mt-2 w-full rounded-md bg-card border border-border px-3 py-2 text-text focus:outline-none focus:ring-2 focus:ring-accent">
         </label>
-        <p id="translateStatus" class="status-text text-sm text-glow-200" aria-live="polite">輸入英文單字後，會自動查詢中文翻譯。</p>
-        <p id="submitStatus" class="status-text text-sm text-glow-200" aria-live="polite">填寫表單後，點擊「儲存單字」即可送出。</p>
+        <p id="translateStatus" class="status-text text-sm text-muted" aria-live="polite">輸入英文單字後，會自動查詢中文翻譯。</p>
+        <p id="submitStatus" class="status-text text-sm text-muted" aria-live="polite">填寫表單後，點擊「儲存單字」即可送出。</p>
         <div class="form-row flex gap-2 mt-2">
-          <button id="autoFillBtn" type="button" class="px-3 py-2 rounded-md bg-glow-600 text-glow-900">自動翻譯</button>
-          <button id="saveBtn" type="submit" class="px-3 py-2 rounded-md bg-glow-accent text-black">儲存單字</button>
-          <button id="cancelEditBtn" type="button" class="px-3 py-2 rounded-md bg-glow-700 text-glow-200">取消</button>
+          <button id="autoFillBtn" type="button" class="px-3 py-2 rounded-md bg-accent-dark text-on-accent">自動翻譯</button>
+          <button id="saveBtn" type="submit" class="px-3 py-2 rounded-md bg-accent text-on-accent">儲存單字</button>
+          <button id="cancelEditBtn" type="button" class="px-3 py-2 rounded-md bg-card text-muted">取消</button>
         </div>
       </form>
 
-      <section class="controls">
-        <input id="search" placeholder="搜尋單字或解釋">
-        <div class="control-row">
-          <button id="shuffleBtn">隨機練習</button>
-          <button id="startStudyBtn" class="primary">開始練習</button>
+      <section class="controls mt-4 space-y-4 bg-card p-4 rounded-xl border border-border shadow-glow">
+        <input id="search" placeholder="搜尋單字或解釋" class="mt-1 w-full rounded-md bg-card border border-border px-3 py-2 text-text placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-accent">
+        <div class="control-row flex flex-wrap gap-3">
+          <button id="shuffleBtn" class="px-3 py-2 rounded-md bg-panel text-text border border-border">隨機練習</button>
+          <button id="startStudyBtn" class="px-3 py-2 rounded-md bg-accent text-on-accent">開始練習</button>
         </div>
-        <div class="control-row">
-          <button id="exportBtn">匯出 JSON</button>
-          <label class="import">
+        <div class="control-row flex flex-wrap gap-3">
+          <button id="exportBtn" class="px-3 py-2 rounded-md bg-panel text-text border border-border">匯出 JSON</button>
+          <label class="import flex items-center gap-2 text-text">
             匯入
-            <input id="importFile" type="file" accept="application/json">
+            <input id="importFile" type="file" accept="application/json" class="text-text">
           </label>
         </div>
       </section>
 
-      <section class="list">
-        <h3>卡片列表</h3>
-        <ul id="cardList"></ul>
+      <section class="list mt-4 bg-card p-4 rounded-xl border border-border shadow-glow">
+        <h3 class="text-lg font-medium">卡片列表</h3>
+        <ul id="cardList" class="mt-3 space-y-3"></ul>
       </section>
     </section>
 
-    <section class="study">
-      <div class="study-header">
-        <h2>練習模式</h2>
-        <div class="progress" title="進度">
-          <div id="progressBar"></div>
+    <section class="study bg-panel p-6 rounded-xl border border-border shadow-glow">
+      <div class="study-header flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+        <h2 class="text-lg font-medium">練習模式</h2>
+        <div class="progress w-full h-2 rounded-full bg-border overflow-hidden" title="進度">
+          <div id="progressBar" class="h-full bg-accent transition-all duration-300"></div>
         </div>
       </div>
-      <div id="cardView" class="card-view empty">
+      <div id="cardView" class="card-view empty flex items-center justify-center bg-card rounded-xl border border-border shadow-glow p-4 min-h-[280px]">
         <div class="card" id="studyCard">
           <div class="front" id="cardFront"></div>
           <div class="back" id="cardBack"></div>
         </div>
       </div>
 
-      <div class="study-controls">
-        <button id="prevBtn">上一步</button>
-        <button id="flipBtn" class="accent">翻面</button>
-        <button id="nextBtn">下一步</button>
-        <button id="knownBtn">我會了</button>
+      <div class="study-controls mt-4 flex flex-wrap gap-3">
+        <button id="prevBtn" class="px-4 py-2 rounded-md bg-panel text-text border border-border">上一步</button>
+        <button id="flipBtn" class="px-4 py-2 rounded-md bg-accent text-on-accent">翻面</button>
+        <button id="nextBtn" class="px-4 py-2 rounded-md bg-panel text-text border border-border">下一步</button>
+        <button id="knownBtn" class="px-4 py-2 rounded-md bg-accent-dark text-on-accent">我會了</button>
       </div>
-      <p class="note">提示：點擊卡片亦可翻面，空白卡片會阻止練習開始。</p>
+      <p class="note mt-4 text-sm text-muted">提示：點擊卡片亦可翻面，空白卡片會阻止練習開始。</p>
     </section>
   </main>
 
-  <footer>
+  <footer class="py-4 text-center text-sm text-muted">
     <small>儲存在本機 LocalStorage • 可匯入/匯出 JSON</small>
   </footer>
 

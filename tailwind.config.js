@@ -4,21 +4,22 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        'glow-50': '#f8f4ec',
-        'glow-100': '#e6dcc0',
-        'glow-200': '#bfa86a',
-        'glow-400': '#D4AF37',
-        'glow-600': '#B8860B',
-        'glow-700': '#141414',
-        'glow-800': '#0b0b0b',
-        'glow-900': '#050505',
-        'glow-accent': '#D4AF37'
+        surface: '#050505',
+        panel: '#0b0b0b',
+        card: '#141414',
+        border: '#27211b',
+        text: '#f8f4ec',
+        muted: '#e6dcc0',
+        accent: '#D4AF37',
+        'accent-dark': '#B8860B',
+        'on-accent': '#050505',
+        'on-surface': '#f8f4ec'
       },
       boxShadow: {
-        'glow-lg': '0 8px 30px rgba(212,175,55,0.12)'
+        glow: '0 8px 30px rgba(212,175,55,0.12)'
       },
       borderRadius: {
-        'xl': '12px'
+        xl: '12px'
       }
     }
   }
