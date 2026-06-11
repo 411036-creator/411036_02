@@ -61,7 +61,9 @@
   button{transition:transform .2s ease, box-shadow .2s ease}
   button:hover{transform:translateY(-1px);box-shadow:0 8px 20px rgba(212,175,55,0.18)}
   .subtitle,.status-text,.note,footer small{color:#e6dcc0}
-  .import input[type=file]{color:#f8f4ec}
+  .import input[type=file]{color:#f8f4ec; background:#141414; border:1px solid #27211b; border-radius:0.75rem; padding:0.5rem 0.75rem;}
+  .import input[type=file]::-webkit-file-upload-button{background:#27211b;color:#f8f4ec;border:none;padding:0.4rem 0.8rem;border-radius:0.75rem;cursor:pointer}
+  .import input[type=file]::-moz-file-upload-button{background:#27211b;color:#f8f4ec;border:none;padding:0.4rem 0.8rem;border-radius:0.75rem;cursor:pointer}
   .study-header .progress{background:#27211b}
   .study-header h2{color:#f8f4ec}
   footer{background:#0b0b0b;border-top:1px solid #27211b}
@@ -110,9 +112,9 @@
         </div>
         <div class="control-row flex flex-wrap gap-3">
           <button id="exportBtn" type="button" class="px-3 py-2 rounded-md bg-panel text-text border border-border">匯出 JSON</button>
-          <label class="import flex items-center gap-2 text-text">
+          <label class="import flex items-center gap-2 text-text bg-panel px-3 py-2 rounded-lg border border-border">
             匯入
-            <input id="importFile" type="file" accept="application/json" class="text-text">
+            <input id="importFile" type="file" accept="application/json" class="text-text bg-panel border-none">
           </label>
         </div>
       </section>
