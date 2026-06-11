@@ -164,9 +164,9 @@ class FlashcardApp {
       const li = document.createElement('li')
       const left = document.createElement('div'); left.innerHTML = `<strong>${escapeHTML(c.front)}</strong><div class="meta">${escapeHTML(c.back)}</div>`
       const actions = document.createElement('div'); actions.className='actions'
-      const edit = document.createElement('button'); edit.textContent='編輯'; edit.addEventListener('click', ()=>this.startEdit(c.id))
-      const del = document.createElement('button'); del.textContent='刪除'; del.addEventListener('click', ()=>this.deleteCard(c.id))
-      const known = document.createElement('button'); known.textContent = c.known? '已會' : '未會'; known.addEventListener('click', ()=>{c.known=!c.known; this.save(); this.renderList()})
+      const edit = document.createElement('button'); edit.type='button'; edit.textContent='編輯'; edit.addEventListener('click', ()=>this.startEdit(c.id))
+      const del = document.createElement('button'); del.type='button'; del.textContent='刪除'; del.addEventListener('click', ()=>this.deleteCard(c.id))
+      const known = document.createElement('button'); known.type='button'; known.textContent = c.known? '已會' : '未會'; known.addEventListener('click', ()=>{c.known=!c.known; this.save(); this.renderList()})
       actions.appendChild(known); actions.appendChild(edit); actions.appendChild(del)
       li.appendChild(left); li.appendChild(actions)
       this.cardList.appendChild(li)

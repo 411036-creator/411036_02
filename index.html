@@ -38,7 +38,7 @@
   html,body{height:100%}
   body{margin:0;font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans", "Helvetica Neue", Arial}
   main{display:grid;grid-template-columns:360px 1fr;gap:20px;padding:20px;max-width:1100px;margin:0 auto}
-  .card{width:420px;height:260px;perspective:1200px}
+  .card{width:420px;height:260px;perspective:1200px;position:relative}
   .card .front,.card .back{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:20px;font-size:1.4rem;transition:transform .5s;backface-visibility:hidden}
   .card .back{transform:rotateY(180deg);font-size:1rem}
   .card.flipped .front{transform:rotateY(180deg)}
@@ -86,11 +86,11 @@
       <section class="controls mt-4 space-y-4 bg-card p-4 rounded-xl border border-border shadow-glow">
         <input id="search" placeholder="搜尋單字或解釋" class="mt-1 w-full rounded-md bg-card border border-border px-3 py-2 text-text placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-accent">
         <div class="control-row flex flex-wrap gap-3">
-          <button id="shuffleBtn" class="px-3 py-2 rounded-md bg-panel text-text border border-border">隨機練習</button>
-          <button id="startStudyBtn" class="px-3 py-2 rounded-md bg-accent text-on-accent">開始練習</button>
+          <button id="shuffleBtn" type="button" class="px-3 py-2 rounded-md bg-panel text-text border border-border">隨機練習</button>
+          <button id="startStudyBtn" type="button" class="px-3 py-2 rounded-md bg-accent text-on-accent">開始練習</button>
         </div>
         <div class="control-row flex flex-wrap gap-3">
-          <button id="exportBtn" class="px-3 py-2 rounded-md bg-panel text-text border border-border">匯出 JSON</button>
+          <button id="exportBtn" type="button" class="px-3 py-2 rounded-md bg-panel text-text border border-border">匯出 JSON</button>
           <label class="import flex items-center gap-2 text-text">
             匯入
             <input id="importFile" type="file" accept="application/json" class="text-text">
@@ -119,10 +119,10 @@
       </div>
 
       <div class="study-controls mt-4 flex flex-wrap gap-3">
-        <button id="prevBtn" class="px-4 py-2 rounded-md bg-panel text-text border border-border">上一步</button>
-        <button id="flipBtn" class="px-4 py-2 rounded-md bg-accent text-on-accent">翻面</button>
-        <button id="nextBtn" class="px-4 py-2 rounded-md bg-panel text-text border border-border">下一步</button>
-        <button id="knownBtn" class="px-4 py-2 rounded-md bg-accent-dark text-on-accent">我會了</button>
+        <button id="prevBtn" type="button" class="px-4 py-2 rounded-md bg-panel text-text border border-border">上一步</button>
+        <button id="flipBtn" type="button" class="px-4 py-2 rounded-md bg-accent text-on-accent">翻面</button>
+        <button id="nextBtn" type="button" class="px-4 py-2 rounded-md bg-panel text-text border border-border">下一步</button>
+        <button id="knownBtn" type="button" class="px-4 py-2 rounded-md bg-accent-dark text-on-accent">我會了</button>
       </div>
       <p class="note mt-4 text-sm text-muted">提示：點擊卡片亦可翻面，空白卡片會阻止練習開始。</p>
     </section>
