@@ -1,5 +1,5 @@
 const STORAGE_KEY = 'flashcards_v1'
-const GAS_API_URL = 'https://script.google.com/macros/s/AKfycby8cl9_0o94b_Fjm5U-8Bb5dAoWjaZUz0qc4s1xM2w/dev'
+const GAS_API_URL = 'https://script.google.com/macros/s/AKfycbwtM8g5-UGj8bp4a8jgPGWobihJ4CijpleXk3oiyOEOlv9TsI7yDxZl395Y6QAJtOgQ/exec'
 
 class FlashcardApp {
   constructor(){
@@ -80,7 +80,7 @@ class FlashcardApp {
 
   generateId(){return Date.now().toString(36)+Math.random().toString(36).slice(2,6)}
 
-  saveCard(){
+  async saveCard(){
     const front = this.inputWord.value.trim()
     const back = this.inputTranslation.value.trim()
     const root = this.inputRoot.value.trim()
@@ -88,8 +88,9 @@ class FlashcardApp {
     const pos = this.inputPOS.value.trim()
     if(!front || !back){alert('英文單字與中文翻譯不可為空'); return}
 
+    let card = null
     if(this.editingId){
-      const card = this.cards.find(c=>c.id===this.editingId)
+      card = this.cards.find(c=>c.id===this.editingId)
       if(card){
         card.front = front
         card.back = back
@@ -99,9 +100,41 @@ class FlashcardApp {
       }
       this.editingId = null
     } else {
-      this.cards.push({id:this.generateId(),front,back,root,pos,example,known:false,created:Date.now()})
+      card = {id:this.generateId(),front,back,root,pos,example,known:false,created:Date.now()}
+      this.cards.push(card)
     }
     this.save(); this.resetForm(); this.renderList();
+
+    try {
+      await this.saveToSheet(card)
+    } catch (error) {
+      console.warn('GAS save failed', error)
+      alert('已儲存到本機，但自動同步到試算表失敗。請稍後再試。')
+    }
+  }
+
+  async saveToSheet(card){
+    if(!GAS_API_URL) return
+    const payload = {
+      word: card.front,
+      translation: card.back,
+      root: card.root || '',
+      example: card.example || '',
+      partOfSpeech: card.pos || ''
+    }
+    const response = await fetch(GAS_API_URL, {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify(payload)
+    })
+    if(!response.ok){
+      throw new Error('GAS API 回傳狀態 ' + response.status)
+    }
+    const data = await response.json()
+    if(data.status !== 'success'){
+      throw new Error(data.message || 'GAS API 儲存失敗')
+    }
+    return data
   }
 
   resetForm(){
