@@ -1,5 +1,5 @@
 const STORAGE_KEY = 'flashcards_v1'
-const GAS_API_URL = 'https://script.google.com/macros/s/AKfycbwtM8g5-UGj8bp4a8jgPGWobihJ4CijpleXk3oiyOEOlv9TsI7yDxZl395Y6QAJtOgQ/exec'
+const GAS_API_URL = 'https://script.google.com/macros/s/AKfycbzut9_hh1PZ4_gWWVL6X8lhCfXCDIs57y7KtTilK86lrkkvWzGbuSM58p_KwnCB5UJa/exec'
 
 class FlashcardApp {
   constructor(){
