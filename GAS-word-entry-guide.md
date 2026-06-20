@@ -125,7 +125,7 @@ function doPost(e) {
 5. 你也可以用 `curl` 測試已部署的 URL：
 
 ```bash
-curl -X POST 'https://script.google.com/macros/s/YOUR_DEPLOYED_SCRIPT_ID/exec' \
+curl -X POST 'https://script.google.com/macros/s/AKfycbzT2TSdYZ38QHoXAoPoZ4siKRQY7jhA6o4H1zNCDtqy0GKqXu9awnwt89Lv1Naq216Q/exec' \
   -H 'Content-Type: application/json' \
   -d '{"word":"test","translation":"測試","root":"test-root","example":"This is a test.","partOfSpeech":"noun"}'
 ```
